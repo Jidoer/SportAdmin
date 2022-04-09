@@ -12,12 +12,12 @@ import (
 
 func GetInfoFromPw(user string, pw string) *UserInfo {
 	var info UserInfo
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open("mysql", mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&UserInfo{}) //自动初始化表
+	db.AutoMigrate(&UserInfo{}) //自动迁移
 
 	rows, _ := db.Model(&UserInfo{}).Where("username=?", user).Rows()
 	defer rows.Close()
@@ -47,12 +47,12 @@ func GetInfoFromCTX(ctx iris.Context) (*UserInfo, string) {
 			ctx.ViewData("iflogin", true) //logined!!!
 			////////
 			var info UserInfo
-			dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+			dbtmp, err := gorm.Open("mysql", mydbase)
 			if err != nil {
 				panic("failed to connect database")
 			}
 			db = dbtmp
-			db.AutoMigrate(&UserInfo{}) //自动初始化表
+			db.AutoMigrate(&UserInfo{}) //自动迁移
 
 			uid := FromTokenGetID(user)
 			if uid == -1 {
@@ -100,12 +100,12 @@ func GetInfoFromCTX(ctx iris.Context) (*UserInfo, string) {
 
 func GetInfoFromID(uid int) (*UserInfo, string) {
 	var info UserInfo
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open("mysql", mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&UserInfo{}) //自动初始化表
+	db.AutoMigrate(&UserInfo{}) //自动迁移
 
 	rows, _ := db.Model(&UserInfo{}).Where("id=?", uid).Rows()
 	defer rows.Close()
@@ -124,7 +124,6 @@ func GetInfoFromID(uid int) (*UserInfo, string) {
 	return &info, "yes"
 
 }
-
 
 func GetUidFromCTX(ctx iris.Context) string {
 	Info, result := GetInfoFromCTX(ctx)
@@ -148,12 +147,12 @@ func Login(user string, pw string) (string, UserInfo) {
 	var info UserInfo
 	var NULL UserInfo
 
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open("mysql", mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&UserInfo{}) //自动初始化表
+	db.AutoMigrate(&UserInfo{}) //自动迁移
 
 	rows, _ := db.Model(&UserInfo{}).Where("username=?", user).Rows()
 	defer rows.Close()
@@ -200,12 +199,12 @@ func checkErr(err error) {
 func WriteMoney(ctx iris.Context, money int) bool { /*Update The Money For User*/
 	//Get UID
 	uid := GetUidFromCTX(ctx)
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open("mysql", mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&UserInfo{}) //自动初始化表
+	db.AutoMigrate(&UserInfo{}) //自动迁移
 	db.Model(&UserInfo{}).Where("id=?", uid).Update("money", money)
 	log.Print("更新余额:" + strconv.Itoa(money))
 	return true
@@ -232,12 +231,12 @@ func AddUser(us UserInfo) bool {
 
 func EditUser(id int, us UserInfo) bool {
 	//e := db.Where("id = ?", id).Update(&UserInfo{}).Error
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open("mysql", mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&UserInfo{}) //自动初始化表
+	db.AutoMigrate(&UserInfo{}) //自动迁移
 	e := db.Model(&UserInfo{}).Where("id=?", id).Update(&UserInfo{Username: us.Username, Password: us.Password, Sex: us.Sex, Created: us.Created, Money: us.Money, Vip: us.Vip, Viptime: us.Viptime, Phone: us.Phone, Email: us.Email, Loginip: us.Loginip}).Error
 	if e == nil {
 		return true

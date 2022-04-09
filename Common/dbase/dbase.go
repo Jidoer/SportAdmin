@@ -7,6 +7,7 @@ import (
 )
 
 var db *gorm.DB
+var mydbase = "demo:demo@Jidoer..@tcp(hhhh.fun:3306)/demo?parseTime=true"
 
 type UserInfo struct {
 	gorm.Model

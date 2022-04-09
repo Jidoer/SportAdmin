@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	_ "github.com/go-sql-driver/mysql" //添加mysql支持
 	"github.com/jinzhu/gorm"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -17,12 +18,12 @@ func ListDiscuss(mtype int) interface{} {
 		return nil
 	}
 	log.Println(mtype)
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open("mysql", mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&Discuss{}) //自动初始化表
+	db.AutoMigrate(&Discuss{}) //自动迁移
 
 	rows, _ := db.Model(&Discuss{}).Where(&Discuss{Group: mtype}).Rows()
 	//.Select("id, group_id, uid, answer").
@@ -45,12 +46,12 @@ func ListDiscuss(mtype int) interface{} {
 }
 
 func PostMessage(uid, Groupid int, Title, Message string) bool {
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open("mysql", mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&Discuss{}) //自动初始化表
+	db.AutoMigrate(&Discuss{}) //自动迁移
 
 	if err := db.Create(&Discuss{
 		UID:      uid,
@@ -68,12 +69,12 @@ func PostMessage(uid, Groupid int, Title, Message string) bool {
 
 func GetMessageInfo(id int) Discuss {
 	var resdata Discuss
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open("mysql", mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&Discuss{}) //自动初始化表
+	db.AutoMigrate(&Discuss{}) //自动迁移
 
 	rows, _ := db.Model(&Discuss{}).Where("id=?", id).Rows()
 	defer rows.Close()
@@ -87,12 +88,12 @@ func GetMessageInfo(id int) Discuss {
 }
 
 func Reply(uid, reid int, message string) bool {
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open("mysql", mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&ReplyMessage{}) //自动初始化表.
+	db.AutoMigrate(&ReplyMessage{}) //自动迁移 .
 
 	if err := db.Create(&ReplyMessage{
 		Uid:       uid,

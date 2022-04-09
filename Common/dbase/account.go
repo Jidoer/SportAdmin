@@ -7,16 +7,15 @@ import (
 )
 
 func ListUser() interface{} {
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open("mysql", mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&UserInfo{}) //自动初始化表
+	db.AutoMigrate(&UserInfo{}) //自动迁移
 	var resdata /*[30]*/ UserInfo
 	var result = map[string]map[string]string{}
 	rows, _ := db.Model(&UserInfo{}).Rows()
-
 
 	defer rows.Close()
 
