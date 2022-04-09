@@ -55,7 +55,7 @@ func main(){
 	app.Get("/run",func(ctx iris.Context) {Page.Run(ctx)})
 
 	//testadduser Just Test API !!!!
-	app.Get("/testadduser", func(ctx iris.Context) { Page.AddUser2(ctx) })
+	//app.Get("/testadduser", func(ctx iris.Context) { Page.AddUser2(ctx) })
 
 
 	//-----new------
