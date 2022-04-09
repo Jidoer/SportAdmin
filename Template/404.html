@@ -1,0 +1,87 @@
+<html lang="en"><script>
+    (() => {
+    /**
+     * This script injected by the installed three.js developer
+     * tools extension.
+     * https://github.com/threejs/three-devtools
+     */
+    
+    const $devtoolsReady = Symbol('devtoolsReady');
+    const $backlog = Symbol('backlog');
+    
+    // The __THREE_DEVTOOLS__ target is small and light-weight, and collects
+    // events triggered until the devtools panel is ready, which is when
+    // the events are flushed.
+    const target = new class ThreeDevToolsTarget extends EventTarget {
+      constructor() {
+        super();
+        this[$devtoolsReady] = false;
+        this[$backlog] = [];
+        this.addEventListener('devtools-ready', e => {
+          this[$devtoolsReady] = true;
+          for (let event of this[$backlog]) {
+            this.dispatchEvent(event);
+          }
+        }, { once: true });
+      }
+    
+      dispatchEvent(event) {
+        if (this[$devtoolsReady] || event.type === 'devtools-ready') {
+          super.dispatchEvent(event);
+        } else {
+          this[$backlog].push(event);
+        }
+      }
+    }
+    
+    Object.defineProperty(window, '__THREE_DEVTOOLS__', {
+      value: target,
+    });
+    })();
+    </script><head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>CRM Admin</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/vendor.bundle.base.css">
+        <link rel="stylesheet" href="css/materialdesignicons.min.css">
+        <link rel="stylesheet" href="css/animate.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    
+    <body>
+        <div class="container-scroller">
+            <div class="container-fluid page-body-wrapper full-page-wrapper">
+                <div class="content-wrapper d-flex align-items-center auth px-0">
+                    <div class="row w-100 mx-0">
+                        <div class="col-lg-4 mx-auto">
+                            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                                <div class="brand-logo">
+                                    <img src="images/admin.png" alt="logo">
+                                </div>
+                                <div><h2>404 NotFound</h2></div>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+            </div>
+            <!-- page-body-wrapper ends -->
+        </div>
+        <!-- container-scroller -->
+        <!-- plugins:js -->
+        <script src="js/jquery-3.4.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <!-- endinject -->
+        <!-- inject:js -->
+        <script src="js/off-canvas.js"></script>
+        <script src="js/hoverable-collapse.js"></script>
+        <script src="js/template.js"></script>
+        <!-- endinject -->
+    
+    
+    </body></html>

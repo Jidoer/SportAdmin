@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Admin界面</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="css/animate.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="container-scroller">
+
+    <!-- Start Top Nav bar -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="navbar-brand-wrapper d-flex justify-content-center">
+        <div class="navbar-brand-inner-wrapper d-flex justify-content-between align-items-center w-100">
+          <a class="navbar-brand brand-logo" href="index.html"><img src="images/admin.png" alt="logo" /></a>
+          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="images/logo-mini.svg" alt="logo" /></a>
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+            <span class="mdi mdi-sort-variant"></span>
+          </button>
+        </div>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+        <ul class="navbar-nav mr-lg-4 w-100">
+          <li class="nav-item nav-search d-none d-lg-block w-100">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="search">
+                  <i class="mdi mdi-magnify"></i>
+                </span>
+              </div>
+              <input type="text" class="form-control" placeholder="Search now" aria-label="search"
+                aria-describedby="search">
+            </div>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-nav-right">
+
+
+
+          <li class="nav-item nav-profile dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+              <img src="images/faces/face5.jpg" alt="profile" />
+              <span class="nav-profile-name">Admin</span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+              <a class="dropdown-item">
+                <i class="mdi mdi-settings text-primary"></i>
+                设置
+              </a>
+              <a class="dropdown-item" href="/run?exec=loginout">
+                <i class="mdi mdi-logout text-primary"></i>
+                退出登录
+              </a>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+          data-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- End Top Nav bar -->
+
+
+    <div class="container-fluid page-body-wrapper">
+      <!-- Start Sidebar Section -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">
+              <i class="mdi mdi-home menu-icon"></i>
+              <span class="menu-title">仪表盘</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="account.html">
+              <i class="mdi mdi-currency-bdt menu-icon"></i>
+              <span class="menu-title">账户</span>
+            </a>
+          </li>
+
+
+
+          <li class="nav-item">
+            <a class="nav-link" href="tasks.html">
+              <i class="mdi mdi-clipboard-list menu-icon"></i>
+              <span class="menu-title">任务</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="settings.html">
+              <i class="mdi mdi-settings menu-icon"></i>
+              <span class="menu-title">设置</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- End Sidebar Section -->
+
+
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <!--Start Page Header-->
+          <div class="row">
+            <div class="col-md-12 grid-margin">
+              <div class="d-flex justify-content-between flex-wrap">
+                <div class="d-flex align-items-end flex-wrap">
+                  <div class="mr-md-3 mr-xl-5">
+                    <h2>用户管理</h2>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-end flex-wrap">
+                  <!--
+                  <button type="button" class="btn btn-light bg-white btn-icon mr-3 d-none d-md-block ">
+                    <i class="mdi mdi-download text-muted"></i>
+                  </button>
+                  <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0">
+                    <i class="mdi mdi-printer text-muted"></i>
+                  </button>
+					-->
+                  <button type="button" class="btn btn-primary btn-icon big-btn mr-3 mt-2 mt-xl-0" data-toggle="modal"
+                    data-target="#createAccountModal">
+                    <i class="mdi mdi-plus"></i> 新建用户
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--End Page Header-->
+
+          <!--Start Create Account Modal-->
+          <div class="modal fade" id="createAccountModal" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">新建用户</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>用户名</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend bg-transparent">
+                              <span class="input-group-text bg-transparent border-right-0">
+                                <i class="mdi mdi-account-outline text-primary"></i>
+                              </span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg border-left-0" placeholder="Name"
+                              id="entername">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>密码</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend bg-transparent">
+                              <span class="input-group-text bg-transparent border-right-0">
+                                <i class="mdi mdi-textbox-password text-primary"></i>
+                              </span>
+                            </div>
+                            <input type="email" class="form-control form-control-lg border-left-0"
+                              placeholder="Password" id="enterpassword">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>手机号</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend bg-transparent">
+                              <span class="input-group-text bg-transparent border-right-0">
+                                <i class="mdi mdi-phone-check text-primary"></i>
+                              </span>
+                            </div>
+                            <input type="tel" class="form-control form-control-lg border-left-0"
+                              placeholder="Phone Number" id="enterphone">
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>性别</label>
+                          <select class="form-control form-control-lg" id="addsexslt">
+                            <option>女</option>
+                            <option>男</option>
+                          </select>
+                        </div>
+                      </div>
+
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>余额</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend bg-transparent">
+                              <span class="input-group-text bg-transparent border-right-0">
+                                <i class="mdi mdi-wallet text-primary"></i>
+                              </span>
+                            </div>
+                            <input type="url" class="form-control form-control-lg border-left-0" placeholder="Money"
+                              id="entermoney">
+                          </div>
+                        </div>
+                      </div>
+                      <!--
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Billing Address</label>
+                          <input type="text" class="form-control form-control-lg" placeholder="Street">
+                          <div class="d-flex my-3">
+                            <input type="text" class="form-control form-control-lg mr-3" placeholder="City">
+                            <input type="text" class="form-control form-control-lg mr-3" placeholder="State">
+                            <input type="text" class="form-control form-control-lg" placeholder="Post Code">
+                          </div>
+
+                          <select class="form-control form-control-lg">
+                            <option>Country</option>
+                            <option>United States of America</option>
+                            <option>United Kingdom</option>
+                            <option>India</option>
+                            <option>Germany</option>
+                            <option>Argentina</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>Shipping Address</label>
+                          <input type="text" class="form-control form-control-lg" placeholder="Street">
+                          <div class="d-flex my-3">
+                            <input type="text" class="form-control form-control-lg mr-3" placeholder="City">
+                            <input type="text" class="form-control form-control-lg mr-3" placeholder="State">
+                            <input type="text" class="form-control form-control-lg" placeholder="Post Code">
+                          </div>
+                          <select class="form-control form-control-lg">
+                            <option>Country</option>
+                            <option>United States of America</option>
+                            <option>United Kingdom</option>
+                            <option>India</option>
+                            <option>Germany</option>
+                            <option>Argentina</option>
+                          </select>
+                        </div>
+                      </div>
+						-->
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>用户类型</label>
+                          <select class="form-control form-control-lg" id="addslt">
+                            <option>普通用户</option>
+                            <option>管理员</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger btn-icon big-btn" data-dismiss="modal">取消</button>
+                  <button type="button" class="btn btn-primary btn-icon big-btn" data-dismiss="modal"
+                    onclick="AddUser()">保存</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--End Create Account Modal-->
+
+
+
+          <!--Edit-->
+
+          <!--Start Create Account Modal-->
+          <div class="modal fade" id="editAccountModal" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">编辑用户</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>用户名</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend bg-transparent">
+                              <span class="input-group-text bg-transparent border-right-0">
+                                <i class="mdi mdi-account-outline text-primary"></i>
+                              </span>
+                            </div>
+                            <input type="text" class="form-control form-control-lg border-left-0" placeholder="Name"
+                              id="eentername">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>密码</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend bg-transparent">
+                              <span class="input-group-text bg-transparent border-right-0">
+                                <i class="mdi mdi-textbox-password text-primary"></i>
+                              </span>
+                            </div>
+                            <input type="email" class="form-control form-control-lg border-left-0"
+                              placeholder="Password" id="eenterpassword">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>手机号</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend bg-transparent">
+                              <span class="input-group-text bg-transparent border-right-0">
+                                <i class="mdi mdi-phone-check text-primary"></i>
+                              </span>
+                            </div>
+                            <input type="tel" class="form-control form-control-lg border-left-0"
+                              placeholder="Phone Number" id="eenterphone">
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>性别</label>
+                          <select class="form-control form-control-lg" id="addsexslt">
+                            <option>女</option>
+                            <option>男</option>
+                          </select>
+                        </div>
+                      </div>
+
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>余额</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend bg-transparent">
+                              <span class="input-group-text bg-transparent border-right-0">
+                                <i class="mdi mdi-wallet text-primary"></i>
+                              </span>
+                            </div>
+                            <input type="url" class="form-control form-control-lg border-left-0" placeholder="Money"
+                              id="eentermoney">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>用户类型</label>
+                          <select class="form-control form-control-lg" id="editslt">
+                            <option>普通用户</option>
+                            <option>管理员</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger btn-icon big-btn" data-dismiss="modal">取消</button>
+                  <button type="button" class="btn btn-primary btn-icon big-btn" data-dismiss="modal"
+                    onclick="EditUser(editid)">保存</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--End Create Account Modal-->
+
+
+          <!--Start Delete Confirmation Modal-->
+          <div class="modal fade" id="deleteAccountModal" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">删除账户</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <h4>是否删除用户?</h4>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary btn-icon big-btn" data-dismiss="modal">取消</button>
+                  <button type="button" class="btn btn-danger btn-icon big-btn" data-dismiss="modal"
+                    onclick="DelUser(del)">确定</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--End Delete Confirmation Modal-->
+
+
+          <div class="row">
+            <div class="col-md-12 stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table id="example" class="data-table table table-striped table-bordered" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>用户名</th>
+                          <th>密码</th>
+                          <th>性别</th>
+                          <th>注册时间</th>
+                          <th>余额</th>
+                          <th>账户类型</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+
+                        {% if ListUser %}
+                        {% for i,item in ListUser %}
+                        <tr>
+                          <td>{{item.username}}</td>
+                          <td>{{item.password}}</td>
+                          <td>1</td>
+                          <td>2022/04/01</td>
+                          <td>{{item.money}}</td>
+                          <td>{{item.vip}}</td>
+                          <td>
+                            <div class="d-flex">
+                              <button type="button" class="btn btn-primary btn-sm mr-3" data-toggle="modal"
+                                data-target="#editAccountModal" onclick="editid={{item.id}};">
+                                编辑
+                              </button>
+                              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                data-target="#deleteAccountModal" onclick="del={{item.id}};">
+                                删除
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                        {%endif%}
+
+
+                        <!--
+                          <tr>
+                          <td>UserName</td>
+                          <td>Password</td>
+                          <td>1</td>
+                          <td>2022/04/01</td>
+                          <td>100</td>
+                          <td>普通用户</td>
+                          <td>
+                            <div class="d-flex">
+                              <button type="button" class="btn btn-primary btn-sm mr-3" data-toggle="modal" data-target="#createAccountModal">
+                                编辑
+                              </button>
+                              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteAccountModal">
+                                删除
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+-->
+
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <!--
+                          <th>Name</th>
+                          <th>Position</th>
+                          <th>Office</th>
+                          <th>Age</th>
+                          <th>Start date</th>
+                          <th>Salary</th>
+                          <th>Action</th>-->
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2022 <a href="#"
+                target="_blank">XXX</a>. All rights reserved.</span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+
+
+
+
+
+  <script type="text/javascript">
+    var del = 0;
+    var editid = 0;
+    var admin = 0;
+    var sex = 0;
+    function AddUser() {
+      var slt = document.getElementById("addslt");
+      //addsexslt
+      var sexslt = document.getElementById("addsexslt");
+      if (slt.value == "男") {
+        console.log("男");
+        sex = 1;
+      } else {
+        console.log("女");
+        sex = 0;
+      }
+      if (slt.value == "管理员") {
+        console.log("添加管理员");
+        admin = 10;
+      } else {
+        console.log("添加普通用户");
+        admin = 0;
+      }
+      var username = document.getElementById("entername").value;
+      var password = document.getElementById("enterpassword").value;
+      var phone = document.getElementById("enterphone").value;
+      var money = document.getElementById("entermoney").value;
+      window.location.href = "adduser/?username=" + username + "&password=" + password + "&phone=" + phone + "&money=" + money + "&vip=" + admin + "&sex=" + sex;
+    }
+
+    function EditUser(editid) {
+      var slt = document.getElementById("editslt");
+      var sexslt = document.getElementById("editsexslt");
+      if (slt.value == "男") {
+        console.log("男");
+        sex = 1;
+      } else {
+        console.log("女");
+        sex = 0;
+      }
+      if (slt.value == "管理员") {
+        console.log("添加管理员");
+        admin = 10;
+      } else {
+        console.log("添加普通用户");
+        admin = 0;
+      }
+      //editslt
+      var username = document.getElementById("eentername").value;
+      var password = document.getElementById("eenterpassword").value;
+      var phone = document.getElementById("eenterphone").value;
+      var money = document.getElementById("eentermoney").value;
+      window.location.href = "edituser/?id=" + editid + "&username=" + username + "&password=" + password + "&phone=" + phone + "&money=" + money + "&vip=" + admin + "&sex=" + sex;
+    }
+
+    function DelUser(id) {
+      window.location.href = "deluser/?id=" + id;
+    }
+
+  </script>
+
+  <!-- plugins:js -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <script src="js/jquery.dataTables.min.js"></script>
+  <script src="js/dataTables.bootstrap4.min.js"></script>
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="js/off-canvas.js"></script>
+  <script src="js/hoverable-collapse.js"></script>
+  <script src="js/template.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="js/dashboard.js"></script>
+  <!-- End custom js for this page-->
+</body>
+
+</html>
