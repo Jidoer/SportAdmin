@@ -40,7 +40,12 @@ func main(){
 	app.Get("/GetMessageInfo", func(ctx iris.Context) { Page.GetMessageInfo(ctx) })
 	app.Get("/Reply", func(ctx iris.Context) { Page.Reply(ctx) })
 	app.Get("/PostMessage", func(ctx iris.Context) { Page.PostMessage(ctx) })
+	app.Get("/AppLogin", func(ctx iris.Context) { Page.AppLogin(ctx) })
 	app.Get("/GetReply", func(ctx iris.Context) { Page.GetReply(ctx) })
+	
+	//PostApi
+	app.Get("/appreg", func(ctx iris.Context) { Page.AppReg(ctx) })
+
 
 
 
