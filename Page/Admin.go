@@ -19,6 +19,15 @@ func Admin(ctx iris.Context) {
 	ctx.View("account.html")
 }
 
+func Message(ctx iris.Context) {
+	if !User.IsAdmin(ctx) {
+		ctx.View("error.html")
+		return
+	}
+	ctx.ViewData("ListMessage", dbase.ListMessage())
+	ctx.View("message.html")
+}
+
 func AddUser(ctx iris.Context) {
 	if !User.IsAdmin(ctx) {
 		ctx.View("error.html")
@@ -68,6 +77,22 @@ func DellUser(ctx iris.Context) {
 	}
 	return
 }
+func DelMessage(ctx iris.Context) {
+	if !User.IsAdmin(ctx) {
+		ctx.View("error.html")
+		return
+	}
+	sid := ctx.URLParam("id")
+	if tool.Isnumber(sid) {
+		id := tool.String2Int(sid)
+		if dbase.DelMessage(id) {
+			ctx.HTML("<script language='javascript' type='text/javascript'> window.location.href='../admin';</script>")
+		} else {
+			ctx.HTML("<script language='javascript' type='text/javascript'> window.location.href='../admin';</script>")
+		}
+	}
+	return
+}
 
 func EditUser(ctx iris.Context) {
 	if !User.IsAdmin(ctx) {
@@ -77,7 +102,7 @@ func EditUser(ctx iris.Context) {
 	}
 	username := ctx.URLParam("username")
 	password := ctx.URLParam("password")
-	sex := 0 //ctx.URLParam("sex")
+	sex := tool.String2Int(ctx.URLParam("sex")) //ctx.URLParam("sex")
 	money := ctx.URLParam("money")
 	vip := ctx.URLParam("vip")
 	phone := ctx.URLParam("phone")
@@ -91,6 +116,10 @@ func EditUser(ctx iris.Context) {
 	*/
 	log.Println(sid)
 	id := tool.String2Int(sid)
+	if sex != 0 && sex != 1 {
+		ctx.HTML("<script language='javascript' type='text/javascript'> alert( '失败!!'); window.location.href='../admin';</script>")
+		return
+	}
 
 	//GetOldUser
 	olduser, er := dbase.GetInfoFromID(id)
@@ -125,11 +154,37 @@ func EditUser(ctx iris.Context) {
 		Phone:    phone,
 		Email:    email,
 	}
-	if dbase.EditUser(id, newuser){
+	if dbase.EditUser(id, newuser) {
 		ctx.HTML("<script language='javascript' type='text/javascript'>window.location.href='../admin';</script>")
 
 		return
 	}
 	ctx.HTML("<script language='javascript' type='text/javascript'> alert( '失败!!'); window.location.href='../admin';</script>")
 	return
+}
+
+func Hot(ctx iris.Context) {
+
+	ctx.View("hot.html")
+}
+
+func EditMsg(ctx iris.Context) {
+	sid := ctx.URLParam("id")
+	if !tool.Isnumber(sid) {
+		ctx.Write([]byte("error: ID Is Not Num!"))
+		return
+	}
+	title := ctx.URLParam("title")
+	msg := ctx.URLParam("message")
+	if title == "" || msg == "" {
+		oldMsg := dbase.GetMessageInfo(tool.String2Int(sid))
+		if title == "" {
+			title = oldMsg.Title
+		}
+		if msg == "" {
+			msg = oldMsg.Message
+		}
+	}
+	
+
 }

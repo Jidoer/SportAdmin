@@ -12,7 +12,7 @@ import (
 
 func GetInfoFromPw(user string, pw string) *UserInfo {
 	var info UserInfo
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -47,7 +47,7 @@ func GetInfoFromCTX(ctx iris.Context) (*UserInfo, string) {
 			ctx.ViewData("iflogin", true) //logined!!!
 			////////
 			var info UserInfo
-			dbtmp, err := gorm.Open("mysql", mydbase)
+			dbtmp, err := gorm.Open(dbtype, mydbase)
 			if err != nil {
 				panic("failed to connect database")
 			}
@@ -100,7 +100,7 @@ func GetInfoFromCTX(ctx iris.Context) (*UserInfo, string) {
 
 func GetInfoFromID(uid int) (*UserInfo, string) {
 	var info UserInfo
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -147,7 +147,7 @@ func Login(user string, pw string) (string, UserInfo) {
 	var info UserInfo
 	var NULL UserInfo
 
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -199,7 +199,7 @@ func checkErr(err error) {
 func WriteMoney(ctx iris.Context, money int) bool { /*Update The Money For User*/
 	//Get UID
 	uid := GetUidFromCTX(ctx)
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -221,6 +221,15 @@ func DelUser(id int) bool {
 	}
 	return true
 }
+func DelMessage(id int) bool {
+	e := db.Model(&Discuss{}).Where("id = ?", id).Unscoped().Delete(&Discuss{}).Error
+	if e != nil {
+		log.Println(strconv.Itoa(id) + ": 验证Error!")
+		//func end!
+		return false
+	}
+	return true
+}
 
 func AddUser(us UserInfo) bool {
 	if Reg(us) == "yes" {
@@ -231,7 +240,7 @@ func AddUser(us UserInfo) bool {
 
 func EditUser(id int, us UserInfo) bool {
 	//e := db.Where("id = ?", id).Update(&UserInfo{}).Error
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}

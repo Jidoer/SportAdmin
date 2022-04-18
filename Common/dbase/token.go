@@ -8,7 +8,7 @@ import (
 )
 
 func SetToken(User UserInfo, token string) bool {
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -30,7 +30,7 @@ func SetToken(User UserInfo, token string) bool {
 
 func IfTokened(uid int) bool {
 	var ittoken TokenDB
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -50,7 +50,7 @@ func IfTokened(uid int) bool {
 func CKToken(token string) bool {
 	//get token
 	var ittoken TokenDB
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -82,7 +82,7 @@ func IfLogin(ctx iris.Context) bool {
 func FromTokenGetID(token string) int {
 	//get token
 	var ittoken TokenDB
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -105,7 +105,7 @@ func FromTokenGetID(token string) int {
 func CKToken (user UserInfo,token string) bool{
 	//get token
 	var ittoken TokenDB
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}

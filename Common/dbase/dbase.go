@@ -7,7 +7,8 @@ import (
 )
 
 var db *gorm.DB
-var mydbase = "demo:demo@Jidoer..@tcp(hhhh.fun:3306)/demo?parseTime=true"
+var mydbase = "./data/mydb.db" //"demo:demo@Jidoer..@tcp(hhhh.fun:3306)/demo?parseTime=true"
+var dbtype = "sqlite3"         //"mysql"
 
 type UserInfo struct {
 	gorm.Model
@@ -36,7 +37,8 @@ type TokenDB struct {
 type Discuss struct {
 	ID       uint `gorm:"primary_key"`
 	UID      int
-	Group    int       // 0 Hot 1 New 2 friend
+	UserName string
+	Group    int       // 0 Hot 1 New 2x Group= 0 在最新分组 Group == 0 在Hot 
 	PostTime time.Time //提交时间
 	Title    string
 	Message  string
@@ -52,7 +54,14 @@ type DianZan struct {
 type ReplyMessage struct {
 	ID        uint `gorm:"primary_key"`
 	Uid       int
+	UserName  string
+	good      int //赞
 	REID      int //被回复消息ID
 	ReplyTime time.Time
 	Message   string
+}
+
+type FeedBack struct {
+	Email string
+	Msg   string
 }

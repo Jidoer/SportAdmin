@@ -7,7 +7,7 @@ import (
 )
 
 func ListUser() interface{} {
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -29,6 +29,7 @@ func ListUser() interface{} {
 		result[strconv.Itoa(i)]["username"] = resdata.Username
 		result[strconv.Itoa(i)]["password"] = "*** ***"
 		result[strconv.Itoa(i)]["sex"] = strconv.Itoa(resdata.Sex)
+		result[strconv.Itoa(i)]["created"] = resdata.Created.String()
 		result[strconv.Itoa(i)]["money"] = strconv.Itoa(resdata.Money)
 		result[strconv.Itoa(i)]["vip"] = strconv.Itoa(resdata.Vip)
 		result[strconv.Itoa(i)]["phone"] = resdata.Phone

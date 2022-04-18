@@ -147,3 +147,10 @@ func Del(ctx iris.Context) {
 		pageerror.NotFound(ctx)
 	}
 }
+
+func GetHeadPng(ctx iris.Context){
+	userid := ctx.URLParam("id")
+	log.Println(userid)
+	//这里暂时统一用户头像
+	
+}

@@ -21,7 +21,7 @@ func Reg(user UserInfo) string {
 	}
 	var s int
 	//dbtmp, err := go rm.Open("sqlite3", "./data/mydb.db")
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 
 	if err != nil {
 		panic("failed to connect database")
@@ -70,7 +70,7 @@ func RegForAddUser(username, password, sex, phone, email, ip string) string {
 		return "no" //禁止出现空Username|password
 	}
 	var s int
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -125,7 +125,7 @@ func CheckCF(name string) bool {
 
 	//Username
 
-	dbtmp, err := gorm.Open("mysql", mydbase)
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
