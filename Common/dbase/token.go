@@ -8,12 +8,12 @@ import (
 )
 
 func SetToken(User UserInfo, token string) bool {
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&TokenDB{}) //自动初始化表
+	db.AutoMigrate(&TokenDB{}) //自动迁移
 	dd, _ := time.ParseDuration("240h")
 	if IfTokened(int(User.ID)) {
 		if err := db.Model(&TokenDB{}).Update(&TokenDB{UserName: User.Username, Token: token, Created: time.Now(), EndTime: time.Now().Add(dd)}).Error; err != nil {
@@ -30,12 +30,12 @@ func SetToken(User UserInfo, token string) bool {
 
 func IfTokened(uid int) bool {
 	var ittoken TokenDB
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&TokenDB{}) //自动初始化表
+	db.AutoMigrate(&TokenDB{}) //自动迁移
 	rows, _ := db.Model(&TokenDB{}).Where("user_id=?", uid).Rows()
 	defer rows.Close()
 	for rows.Next() {
@@ -50,12 +50,12 @@ func IfTokened(uid int) bool {
 func CKToken(token string) bool {
 	//get token
 	var ittoken TokenDB
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&TokenDB{}) //自动初始化表
+	db.AutoMigrate(&TokenDB{}) //自动迁移
 	um := 0
 	rows, _ := db.Model(&TokenDB{}).Where("token=?", token).Rows()
 	defer rows.Close()
@@ -82,12 +82,12 @@ func IfLogin(ctx iris.Context) bool {
 func FromTokenGetID(token string) int {
 	//get token
 	var ittoken TokenDB
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&TokenDB{}) //自动初始化表
+	db.AutoMigrate(&TokenDB{}) //自动迁移
 	um := 0
 	rows, _ := db.Model(&TokenDB{}).Where("token=?", token).Rows()
 	defer rows.Close()
@@ -105,12 +105,12 @@ func FromTokenGetID(token string) int {
 func CKToken (user UserInfo,token string) bool{
 	//get token
 	var ittoken TokenDB
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&TokenDB{}) //自动初始化表
+	db.AutoMigrate(&TokenDB{}) //自动迁移
 
 	rows, _ := db.Model(&TokenDB{}).Where("userid=?", int(user.ID)).Rows()
 	defer rows.Close()

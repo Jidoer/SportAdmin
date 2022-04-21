@@ -7,16 +7,15 @@ import (
 )
 
 func ListUser() interface{} {
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&UserInfo{}) //自动初始化表
+	db.AutoMigrate(&UserInfo{}) //自动迁移
 	var resdata /*[30]*/ UserInfo
 	var result = map[string]map[string]string{}
 	rows, _ := db.Model(&UserInfo{}).Rows()
-
 
 	defer rows.Close()
 
@@ -30,6 +29,7 @@ func ListUser() interface{} {
 		result[strconv.Itoa(i)]["username"] = resdata.Username
 		result[strconv.Itoa(i)]["password"] = "*** ***"
 		result[strconv.Itoa(i)]["sex"] = strconv.Itoa(resdata.Sex)
+		result[strconv.Itoa(i)]["created"] = resdata.Created.String()
 		result[strconv.Itoa(i)]["money"] = strconv.Itoa(resdata.Money)
 		result[strconv.Itoa(i)]["vip"] = strconv.Itoa(resdata.Vip)
 		result[strconv.Itoa(i)]["phone"] = resdata.Phone

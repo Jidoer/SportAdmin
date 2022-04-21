@@ -5,6 +5,7 @@ import (
 	pageerror "gormuser/PageError"
 
 	"github.com/kataras/iris/v12"
+
 )
 
 
@@ -32,7 +33,9 @@ func main(){
 	app.Get("/account.html", func(ctx iris.Context) { Page.Admin(ctx) })
 	app.Get(admindir+"/", func(ctx iris.Context) { Page.Admin(ctx) })
 	app.Get("/login", func(ctx iris.Context) { Page.Login(ctx) })
-	app.Get("/reg", func(ctx iris.Context) { Page.PageView(ctx,"reg") })
+	app.Get("/login", func(ctx iris.Context) { Page.Login(ctx) })
+	app.Get("/message", func(ctx iris.Context) { Page.Message(ctx)})
+	app.Get("/hot", func(ctx iris.Context) { Page.Message(ctx)})
 
 	//API
 	//ListDiscuss
@@ -41,7 +44,8 @@ func main(){
 	app.Get("/Reply", func(ctx iris.Context) { Page.Reply(ctx) })
 	app.Get("/PostMessage", func(ctx iris.Context) { Page.PostMessage(ctx) })
 	app.Get("/AppLogin", func(ctx iris.Context) { Page.AppLogin(ctx) })
-	app.Get("/GetReply", func(ctx iris.Context) { Page.GetReply(ctx) })
+	app.Get("/GetReplyList", func(ctx iris.Context) { Page.GetReplyList(ctx) })
+	app.Get("/PostFeedback", func(ctx iris.Context) { Page.PostFeedback(ctx) })
 	
 	//PostApi
 	app.Get("/appreg", func(ctx iris.Context) { Page.AppReg(ctx) })
@@ -53,6 +57,7 @@ func main(){
 	app.Get("/adduser", func(ctx iris.Context) { Page.AddUser(ctx) })
 	app.Get("/deluser", func(ctx iris.Context) { Page.DellUser(ctx) })
 	app.Get("/edituser", func(ctx iris.Context) { Page.EditUser(ctx) })
+	app.Get("/delmessage", func(ctx iris.Context) { Page.DelMessage(ctx) })
 
 
 	app.Post("/regapi", func(ctx iris.Context) { Page.RegApi(ctx) })

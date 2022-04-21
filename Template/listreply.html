@@ -1,0 +1,11 @@
+[
+{% if ListReply %}
+{% for i,item in ListReply %}
+{
+    "id":"{{item.id}}",
+    "userName":"{{item.userName}}",
+    "content":"{{item.message}}"
+},
+{% endfor %}
+{%endif%}
+]

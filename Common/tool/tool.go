@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/url"
 	"os"
+	"regexp"
 	"strconv"
 	"unicode"
 )
@@ -158,4 +159,13 @@ func GetStringMd5(s string) string {
     md5.Write([]byte(s))
     md5Str := hex.EncodeToString(md5.Sum(nil))
     return md5Str
+}
+
+func IsEmail(email string) bool{
+	result, _ := regexp.MatchString(`^([\w\.\_\-]{2,10})@(\w{1,}).([a-z]{2,4})$`, email)
+	if result {
+		return true
+	} else {
+		return false
+	}
 }

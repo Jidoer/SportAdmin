@@ -8,6 +8,7 @@ import (
 	"log"
 	"time"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -19,12 +20,14 @@ func Reg(user UserInfo) string {
 		return "no" //禁止出现空Username|password
 	}
 	var s int
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	//dbtmp, err := go rm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open(dbtype, mydbase)
+
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&UserInfo{}) //自动初始化表
+	db.AutoMigrate(&UserInfo{}) //自动迁移
 
 	if CheckCF(user.Username) {
 		//username = base64.URLEncoding.EncodeToString([]byte(username))
@@ -67,12 +70,12 @@ func RegForAddUser(username, password, sex, phone, email, ip string) string {
 		return "no" //禁止出现空Username|password
 	}
 	var s int
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&UserInfo{}) //自动初始化表
+	db.AutoMigrate(&UserInfo{}) //自动迁移
 
 	if CheckCF(username) {
 		//username = base64.URLEncoding.EncodeToString([]byte(username))
@@ -122,12 +125,12 @@ func CheckCF(name string) bool {
 
 	//Username
 
-	dbtmp, err := gorm.Open("sqlite3", "./data/mydb.db")
+	dbtmp, err := gorm.Open(dbtype, mydbase)
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db = dbtmp
-	db.AutoMigrate(&UserInfo{}) //自动初始化表
+	db.AutoMigrate(&UserInfo{}) //自动迁移
 	println("[ok]")
 
 	rows, _ := db.Model(&UserInfo{}).Where("Username=?", name).Rows()
