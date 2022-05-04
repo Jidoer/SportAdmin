@@ -5,12 +5,9 @@ import (
 	pageerror "gormuser/PageError"
 
 	"github.com/kataras/iris/v12"
-
 )
 
-
-
-func main(){
+func main() {
 	admindir := "/admin"
 	app := iris.New()
 	app.Logger().SetLevel("debug")
@@ -25,7 +22,7 @@ func main(){
 	})
 	app.RegisterView(tmpl)
 
-	app.OnErrorCode(iris.StatusNotFound,pageerror.NotFound)
+	app.OnErrorCode(iris.StatusNotFound, pageerror.NotFound)
 
 	//INDEX
 	app.Get("/", func(ctx iris.Context) { Page.Admin(ctx) })
@@ -34,8 +31,12 @@ func main(){
 	app.Get(admindir+"/", func(ctx iris.Context) { Page.Admin(ctx) })
 	app.Get("/login", func(ctx iris.Context) { Page.Login(ctx) })
 	app.Get("/login", func(ctx iris.Context) { Page.Login(ctx) })
-	app.Get("/message", func(ctx iris.Context) { Page.Message(ctx)})
-	app.Get("/hot", func(ctx iris.Context) { Page.Message(ctx)})
+	app.Get("/message", func(ctx iris.Context) { Page.Message(ctx) })
+	app.Get("/hot", func(ctx iris.Context) { Page.HotMessage(ctx) })
+	app.Get("/feedback", func(ctx iris.Context) { Page.FeedBack(ctx) })
+	app.Get("/sendemail",func(ctx iris.Context) {Page.SendEmail(ctx)})
+	app.Get("/reply",func(ctx iris.Context) {Page.ReplyView(ctx)})
+
 
 	//API
 	//ListDiscuss
@@ -46,27 +47,33 @@ func main(){
 	app.Get("/AppLogin", func(ctx iris.Context) { Page.AppLogin(ctx) })
 	app.Get("/GetReplyList", func(ctx iris.Context) { Page.GetReplyList(ctx) })
 	app.Get("/PostFeedback", func(ctx iris.Context) { Page.PostFeedback(ctx) })
-	
+	app.Get("/editmsg", func(ctx iris.Context) { Page.EditMsg(ctx) })
+	app.Get("/editreply", func(ctx iris.Context) { Page.EditReply(ctx) })
+	app.Get("/tohot", func(ctx iris.Context) { Page.ToHot(ctx) })
+	app.Get("/notohot", func(ctx iris.Context) { Page.NoToHot(ctx) })
+	app.Get("/delfeedback", func(ctx iris.Context) { Page.DelFeedBack(ctx) })
+	app.Get("/editfeedback", func(ctx iris.Context) { Page.EditFeedback(ctx) })
+	app.Get("/addmsg", func(ctx iris.Context) { Page.AddMessage(ctx) })
+
+
+
 	//PostApi
 	app.Get("/appreg", func(ctx iris.Context) { Page.AppReg(ctx) })
-
-
-
 
 	//Admin
 	app.Get("/adduser", func(ctx iris.Context) { Page.AddUser(ctx) })
 	app.Get("/deluser", func(ctx iris.Context) { Page.DellUser(ctx) })
 	app.Get("/edituser", func(ctx iris.Context) { Page.EditUser(ctx) })
 	app.Get("/delmessage", func(ctx iris.Context) { Page.DelMessage(ctx) })
-
+	app.Get("/delreply", func(ctx iris.Context) { Page.DelReply(ctx) })
+	
 
 	app.Post("/regapi", func(ctx iris.Context) { Page.RegApi(ctx) })
 	app.Post("/loginapi", func(ctx iris.Context) { Page.LoginApi(ctx) })
-	app.Get("/run",func(ctx iris.Context) {Page.Run(ctx)})
+	app.Get("/run", func(ctx iris.Context) { Page.Run(ctx) })
 
 	//testadduser Just Test API !!!!
 	//app.Get("/testadduser", func(ctx iris.Context) { Page.AddUser2(ctx) })
-
 
 	//-----new------
 	app.Post("/edit", func(ctx iris.Context) { Page.RegApi(ctx) })
@@ -75,9 +82,6 @@ func main(){
 		apiCall := ctx.Params().Get("path")
 		app.Logger().Info(apiCall)
 	})
-
-	
-
 
 	app.HandleDir("/js", "./Template/js")
 	app.HandleDir("/css", "./Template/css")

@@ -1,0 +1,272 @@
+{% include "header.html" %}
+
+
+<!-- partial -->
+<div class="main-panel">
+  <div class="content-wrapper">
+    <!--Start Page Header-->
+    <div class="row">
+      <div class="col-md-12 grid-margin">
+        <div class="d-flex justify-content-between flex-wrap">
+          <div class="d-flex align-items-end flex-wrap">
+            <div class="mr-md-3 mr-xl-5">
+              <h2>查看反馈</h2>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!--End Page Header-->
+
+    
+      
+
+
+      <!--Edit-->
+
+      <!--Start Create Account Modal-->
+      <div class="modal fade" id="editAccountModal" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">编辑信息</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="row">
+
+                  
+
+                  <div class="form-group">
+                    <label>内容</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend bg-transparent">
+                        <span class="input-group-text bg-transparent border-right-0">
+                          <i class="mdi mdi-message-text-outline text-primary"></i>
+                        </span>
+                      </div>
+                      <input type="text" class="form-control form-control-lg border-left-0" placeholder="请输入内容(未输入则不变)"
+                        id="content">
+                    </div>
+                  </div>
+                </div>
+
+
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger btn-icon big-btn" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-primary btn-icon big-btn" data-dismiss="modal"
+                onclick="EditMessage(editid)">保存</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--End Create Account Modal-->
+
+
+      <!--Start Delete Confirmation Modal-->
+      <div class="modal fade" id="deleteAccountModal" data-backdrop="static" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">删除Message</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h4>是否删除反馈?</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-icon big-btn" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-danger btn-icon big-btn" data-dismiss="modal"
+                onclick="DelMessage(del)">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--End Delete Confirmation Modal-->
+      <div class="modal fade" id="EditToHot" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">设置热门</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h4>是否设置为热门内容?</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-icon big-btn" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-danger btn-icon big-btn" data-dismiss="modal"
+                onclick="ToHot(hotid)">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="NoToHot" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">取消热门</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h4>是否取消热门内容?</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-icon big-btn" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-danger btn-icon big-btn" data-dismiss="modal"
+                onclick="NoToHot(nohotid)">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12 stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table id="example" class="data-table table table-striped table-bordered" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>电子邮箱</th>
+                      <th>发表时间</th>
+                      <th>反馈内容</th>
+                      <th>反馈类型</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+
+
+                    {% if ListFeedBacks %}
+                    {% for i,item in ListFeedBacks %}
+                    <tr>
+                      <td>{{item.id}}</td>
+                      <td>{{item.email}}</td>
+                      <td>{{item.PostTime}}</td>
+                      <td>{{item.message}}</td>
+                      <td>{{item.type}}</td>
+
+                      <td>
+                        <div class="d-flex">
+                          <button type="button" class="btn btn-primary btn-sm mr-3" data-toggle="modal"
+                            data-target="#editAccountModal" onclick="editid={{item.id}};">
+                            编辑
+                          </button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                              data-target="#deleteAccountModal" onclick="del={{item.id}};">
+                              删除
+                            </button>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                    {%endif%}
+
+
+                    <!--
+                          <tr>
+                          <td>UserName</td>
+                          <td>Password</td>
+                          <td>1</td>
+                          <td>2022/04/01</td>
+                          <td>100</td>
+                          <td>普通用户</td>
+                          <td>
+                            <div class="d-flex">
+                              <button type="button" class="btn btn-primary btn-sm mr-3" data-toggle="modal" data-target="#createAccountModal">
+                                编辑
+                              </button>
+                              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteAccountModal">
+                                删除
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+-->
+
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <!--
+                          <th>Name</th>
+                          <th>Position</th>
+                          <th>Office</th>
+                          <th>Age</th>
+                          <th>Start date</th>
+                          <th>Salary</th>
+                          <th>Action</th>-->
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- content-wrapper ends -->
+    <!-- partial:partials/_footer.html -->
+    {% include "footer.html" %}
+
+    <!-- partial -->
+  </div>
+  <!-- main-panel ends -->
+</div>
+<!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+
+
+
+
+
+
+<script type="text/javascript">
+
+  function EditMessage(id) {
+    var message = document.getElementById("content").value;
+    window.location.href = "editfeedback/?id=" + id + "&message=" + message;
+  }
+
+  function DelMessage(id) {
+    window.location.href = "delfeedback/?id=" + id;
+  }
+
+</script>
+
+<!-- plugins:js -->
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<script src="js/jquery.dataTables.min.js"></script>
+<script src="js/dataTables.bootstrap4.min.js"></script>
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script src="js/off-canvas.js"></script>
+<script src="js/hoverable-collapse.js"></script>
+<script src="js/template.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="js/dashboard.js"></script>
+<!-- End custom js for this page-->
+</body>
+
+</html>

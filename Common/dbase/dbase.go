@@ -38,7 +38,7 @@ type Discuss struct {
 	ID       uint `gorm:"primary_key"`
 	UID      int
 	UserName string
-	Group    int       // 0 Hot 1 New 2x Group= 0 在最新分组 Group == 0 在Hot 
+	GroupId  int       // 0 Hot 1 New 2x Group= 0 在最新分组 Group == 0 在Hot
 	PostTime time.Time //提交时间
 	Title    string
 	Message  string
@@ -62,6 +62,9 @@ type ReplyMessage struct {
 }
 
 type FeedBack struct {
-	Email string
-	Msg   string
+	ID       uint `gorm:"primary_key"`
+	Email    string
+	Msg      string
+	PostTime time.Time
+	BackType int
 }

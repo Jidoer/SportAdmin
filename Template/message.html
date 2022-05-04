@@ -14,6 +14,24 @@
             </div>
           </div>
 
+
+          <div class="d-flex justify-content-between align-items-end flex-wrap">
+            <!--
+                  <button type="button" class="btn btn-light bg-white btn-icon mr-3 d-none d-md-block ">
+                    <i class="mdi mdi-download text-muted"></i>
+                  </button>
+                  <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0">
+                    <i class="mdi mdi-printer text-muted"></i>
+                  </button>
+					-->
+            <button type="button" class="btn btn-primary btn-icon big-btn mr-3 mt-2 mt-xl-0" data-toggle="modal"
+              data-target="#createAccountModal">
+              <i class="mdi mdi-plus"></i> 新建讨论
+            </button>
+          </div>
+
+
+
         </div>
       </div>
       <!--End Page Header-->
@@ -24,7 +42,7 @@
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">新建用户</h5>
+              <h5 class="modal-title" id="staticBackdropLabel">创建新贴</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -34,129 +52,42 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label>用户名</label>
+                      <label>标题</label>
                       <div class="input-group">
                         <div class="input-group-prepend bg-transparent">
                           <span class="input-group-text bg-transparent border-right-0">
                             <i class="mdi mdi-account-outline text-primary"></i>
                           </span>
                         </div>
-                        <input type="text" class="form-control form-control-lg border-left-0" placeholder="Name"
-                          id="entername">
+                        <input type="text" class="form-control form-control-lg border-left-0" placeholder="title"
+                          id="title0">
                       </div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label>密码</label>
+                      <label>内容</label>
                       <div class="input-group">
                         <div class="input-group-prepend bg-transparent">
                           <span class="input-group-text bg-transparent border-right-0">
                             <i class="mdi mdi-textbox-password text-primary"></i>
                           </span>
                         </div>
-                        <input type="email" class="form-control form-control-lg border-left-0" placeholder="Password"
-                          id="enterpassword">
+                        <input type="email" class="form-control form-control-lg border-left-0" placeholder="内容"
+                          id="message0">
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>手机号</label>
-                      <div class="input-group">
-                        <div class="input-group-prepend bg-transparent">
-                          <span class="input-group-text bg-transparent border-right-0">
-                            <i class="mdi mdi-phone-check text-primary"></i>
-                          </span>
-                        </div>
-                        <input type="tel" class="form-control form-control-lg border-left-0" placeholder="Phone Number"
-                          id="enterphone">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>性别</label>
-                      <select class="form-control form-control-lg" id="addsexslt">
-                        <option>女</option>
-                        <option>男</option>
-                      </select>
-                    </div>
-                  </div>
-
-
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>余额</label>
-                      <div class="input-group">
-                        <div class="input-group-prepend bg-transparent">
-                          <span class="input-group-text bg-transparent border-right-0">
-                            <i class="mdi mdi-wallet text-primary"></i>
-                          </span>
-                        </div>
-                        <input type="url" class="form-control form-control-lg border-left-0" placeholder="Money"
-                          id="entermoney">
-                      </div>
-                    </div>
-                  </div>
-                  <!--
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Billing Address</label>
-                          <input type="text" class="form-control form-control-lg" placeholder="Street">
-                          <div class="d-flex my-3">
-                            <input type="text" class="form-control form-control-lg mr-3" placeholder="City">
-                            <input type="text" class="form-control form-control-lg mr-3" placeholder="State">
-                            <input type="text" class="form-control form-control-lg" placeholder="Post Code">
-                          </div>
-
-                          <select class="form-control form-control-lg">
-                            <option>Country</option>
-                            <option>United States of America</option>
-                            <option>United Kingdom</option>
-                            <option>India</option>
-                            <option>Germany</option>
-                            <option>Argentina</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Shipping Address</label>
-                          <input type="text" class="form-control form-control-lg" placeholder="Street">
-                          <div class="d-flex my-3">
-                            <input type="text" class="form-control form-control-lg mr-3" placeholder="City">
-                            <input type="text" class="form-control form-control-lg mr-3" placeholder="State">
-                            <input type="text" class="form-control form-control-lg" placeholder="Post Code">
-                          </div>
-                          <select class="form-control form-control-lg">
-                            <option>Country</option>
-                            <option>United States of America</option>
-                            <option>United Kingdom</option>
-                            <option>India</option>
-                            <option>Germany</option>
-                            <option>Argentina</option>
-                          </select>
-                        </div>
-                      </div>
-						-->
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label>用户类型</label>
-                      <select class="form-control form-control-lg" id="addslt">
-                        <option>普通用户</option>
-                        <option>管理员</option>
-                      </select>
-                    </div>
-                  </div>
+                 
+ 
+                  
                 </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-danger btn-icon big-btn" data-dismiss="modal">取消</button>
               <button type="button" class="btn btn-primary btn-icon big-btn" data-dismiss="modal"
-                onclick="AddUser()">保存</button>
+                onclick="AddMsg()">保存</button>
             </div>
           </div>
         </div>
@@ -184,35 +115,34 @@
                   <div class="col-md-6">
                     <div class="form-group">
 
-                      <label>标题(未输入则不变)</label>
+                      <label>标题</label>
                       <div class="input-group">
                         <div class="input-group-prepend bg-transparent">
                           <span class="input-group-text bg-transparent border-right-0">
-                            <i class="mdi mdi-account-outline text-primary"></i>
+                            <i class="mdi mdi-format-title text-primary"></i>
                           </span>
                         </div>
-                        <input type="text" class="form-control form-control-lg border-left-0" placeholder="Name"
-                          id="title">
+                        <input type="text" class="form-control form-control-lg border-left-0"
+                          placeholder="请输入标题(未输入则不变)" id="title">
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label>内容(未输入则不变)</label>
+                    <label>内容</label>
                     <div class="input-group">
                       <div class="input-group-prepend bg-transparent">
                         <span class="input-group-text bg-transparent border-right-0">
-                          <i class="mdi mdi-account-outline text-primary"></i>
+                          <i class="mdi mdi-message-text-outline text-primary"></i>
                         </span>
                       </div>
-                      <input type="text" class="form-control form-control-lg border-left-0" placeholder="Name"
+                      <input type="text" class="form-control form-control-lg border-left-0" placeholder="请输入内容(未输入则不变)"
                         id="content">
                     </div>
                   </div>
                 </div>
 
-                  
-                </div>
+
               </form>
             </div>
             <div class="modal-footer">
@@ -249,6 +179,47 @@
         </div>
       </div>
       <!--End Delete Confirmation Modal-->
+      <div class="modal fade" id="EditToHot" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">设置热门</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h4>是否设置为热门内容?</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-icon big-btn" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-danger btn-icon big-btn" data-dismiss="modal"
+                onclick="ToHot(hotid)">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="NoToHot" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">取消热门</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h4>是否取消热门内容?</h4>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-icon big-btn" data-dismiss="modal">取消</button>
+              <button type="button" class="btn btn-danger btn-icon big-btn" data-dismiss="modal"
+                onclick="NoToHot(nohotid)">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
       <div class="row">
@@ -274,7 +245,7 @@
                     {% for i,item in ListMessage %}
                     <tr>
                       <td>{{item.id}}</td>
-                      <td>{{item.uid}}</td>
+                      <td>{{item.username}}</td>
 
                       <td>{{item.group}}</td>
                       <td>{{item.posttime}}</td>
@@ -286,16 +257,24 @@
                             data-target="#editAccountModal" onclick="editid={{item.id}};">
                             编辑
                           </button>
-                          <!--
-                              <button type="button" class="btn btn-primary btn-sm mr-3" data-toggle="modal"
-                              data-target="#editAccountModal" onclick="editid={{item.id}};">
-                              设为热门
-                            </button>-->
-
-                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                            data-target="#deleteAccountModal" onclick="del={{item.id}};">
-                            删除
+                          <button type="button" class="btn btn-primary btn-sm mr-3" data-toggle="modal" onclick="window.location.href='reply?id={{item.id}}';">
+                          查看回复
+                        </button>
+                          <!--ifnotequal 1 2-->
+                          {% ifnotequal item.group '0' %}
+                          <button type="button" class="btn btn-primary btn-sm mr-3" data-toggle="modal"
+                            data-target="#EditToHot" onclick="hotid={{item.id}};">
+                            设为热门
                           </button>
+                          {% else %}
+                          <button type="button" class="btn btn-danger btn-sm mr-3" data-toggle="modal"
+                            data-target="#NoToHot" onclick="nohotid={{item.id}};">
+                            取消热门
+                            {% endifnotequal %}
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                              data-target="#deleteAccountModal" onclick="del={{item.id}};">
+                              删除
+                            </button>
                         </div>
                       </td>
                     </tr>
@@ -362,6 +341,14 @@
 
 
 <script type="text/javascript">
+
+  function ToHot(id) {
+    window.location.href = "tohot/?id=" + id;
+  }
+  function NoToHot(id) {
+    window.location.href = "notohot/?id=" + id;
+  }
+
   function EditMessage(id) {
     var title = document.getElementById("title").value;
     var message = document.getElementById("content").value;
@@ -372,6 +359,11 @@
     window.location.href = "delmessage/?id=" + id;
   }
 
+  function AddMsg() {
+    var title = document.getElementById("title0").value;
+    var message = document.getElementById("message0").value;
+    window.location.href = "addmsg/?title=" + title + "&message=" + message;
+  }
 </script>
 
 <!-- plugins:js -->
