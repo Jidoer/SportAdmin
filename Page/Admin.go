@@ -24,7 +24,15 @@ func Message(ctx iris.Context) {
 		ctx.View("error.html")
 		return
 	}
-	ctx.ViewData("ListMessage", dbase.ListMessage())
+	ctx.ViewData("ListMessage", dbase.ListMessage(1)) //1：List ALL!
+	ctx.View("message.html")
+}
+func HotMessage(ctx iris.Context) {
+	if !User.IsAdmin(ctx) {
+		ctx.View("error.html")
+		return
+	}
+	ctx.ViewData("ListMessage", dbase.ListMessage(0)) //1：List HOT!
 	ctx.View("message.html")
 }
 
@@ -86,9 +94,9 @@ func DelMessage(ctx iris.Context) {
 	if tool.Isnumber(sid) {
 		id := tool.String2Int(sid)
 		if dbase.DelMessage(id) {
-			ctx.HTML("<script language='javascript' type='text/javascript'> window.location.href='../admin';</script>")
+			ctx.HTML("<script language='javascript' type='text/javascript'> window.location.href='../message';</script>")
 		} else {
-			ctx.HTML("<script language='javascript' type='text/javascript'> window.location.href='../admin';</script>")
+			ctx.HTML("<script language='javascript' type='text/javascript'> window.location.href='../message';</script>")
 		}
 	}
 	return
@@ -164,11 +172,18 @@ func EditUser(ctx iris.Context) {
 }
 
 func Hot(ctx iris.Context) {
-
+	if !User.IsAdmin(ctx) {
+		ctx.View("error.html")
+		return
+	}
 	ctx.View("hot.html")
 }
 
 func EditMsg(ctx iris.Context) {
+	if !User.IsAdmin(ctx) {
+		ctx.View("error.html")
+		return
+	}
 	sid := ctx.URLParam("id")
 	if !tool.Isnumber(sid) {
 		ctx.Write([]byte("error: ID Is Not Num!"))
@@ -185,6 +200,147 @@ func EditMsg(ctx iris.Context) {
 			msg = oldMsg.Message
 		}
 	}
-	
+	dbase.EditMsg(tool.String2Int(sid), dbase.Discuss{
+		Title:   title,
+		Message: msg,
+	})
+}
 
+func DelReply(ctx iris.Context) {
+	if !User.IsAdmin(ctx) {
+		ctx.View("error.html")
+		return
+	}
+	sid := ctx.URLParam("id")
+	if !tool.Isnumber(sid) {
+		ctx.Write([]byte("error"))
+		return
+	}
+	if dbase.DelReply(tool.String2Int(sid)) {
+		ctx.HTML("<script language='javascript' type='text/javascript'>window.location.href='../message';</script>")
+		return
+	}
+	ctx.Write([]byte("[error]"))
+}
+
+func ToHot(ctx iris.Context) {
+	if !User.IsAdmin(ctx) {
+		ctx.View("error.html")
+		return
+	}
+	sid := ctx.URLParam("id")
+	if !tool.Isnumber(sid) {
+		ctx.Write([]byte("error: ID Is Not Num!"))
+		return
+	}
+	if dbase.ToHot(tool.String2Int(sid)) {
+		ctx.HTML("<script language='javascript' type='text/javascript'>window.location.href='../message';</script>")
+
+	} else {
+		ctx.Write([]byte("error!"))
+	}
+
+}
+
+func NoToHot(ctx iris.Context) {
+	if !User.IsAdmin(ctx) {
+		ctx.View("error.html")
+		return
+	}
+	sid := ctx.URLParam("id")
+	if !tool.Isnumber(sid) {
+		ctx.Write([]byte("error: ID Is Not Num!"))
+		return
+	}
+	if dbase.NoToHot(tool.String2Int(sid)) {
+		ctx.HTML("<script language='javascript' type='text/javascript'>window.location.href='../message';</script>")
+
+	} else {
+		ctx.Write([]byte("error!"))
+	}
+}
+
+func FeedBack(ctx iris.Context) {
+	if !User.IsAdmin(ctx) {
+		ctx.View("error.html")
+		return
+	}
+	ctx.ViewData("ListFeedBacks", dbase.ListFeedBacks()) //ALL!
+	ctx.View("feedback.html")
+
+	//ListFeedBacks
+}
+
+func ReplyView(ctx iris.Context) {
+	if !User.IsAdmin(ctx) {
+		ctx.View("error.html")
+		return
+	}
+	ctx.ViewData("ReplyView", dbase.ReplyView(tool.String2Int(ctx.URLParam("id")))) //ALL!
+	ctx.View("reply.html")
+
+	//ListFeedBacks
+}
+
+
+func EditReply(ctx iris.Context){
+	if !User.IsAdmin(ctx) {
+		ctx.View("error.html")
+		return
+	}
+	id := ctx.URLParam("id")
+	msg := ctx.URLParam("message")
+	if dbase.EditReply(tool.String2Int(id),msg){
+		ctx.HTML("<script language='javascript' type='text/javascript'>window.location.href='../feedback';</script>")
+		return
+	}
+	ctx.HTML("<script language='javascript' type='text/javascript'>window.location.href='../feedback';</script>")
+
+}
+
+func DelFeedBack(ctx iris.Context) {
+	if !User.IsAdmin(ctx) {
+		ctx.View("error.html")
+		return
+	}
+	sid := ctx.URLParam("id")
+	if !tool.Isnumber(sid) {
+		ctx.Write([]byte("error"))
+		return
+	}
+	if dbase.DelFeedBack(tool.String2Int(sid)) {
+		ctx.HTML("<script language='javascript' type='text/javascript'>window.location.href='../feedback';</script>")
+		return
+	}
+	ctx.Write([]byte("[error]"))
+}
+
+
+func EditFeedback(ctx iris.Context){
+	if !User.IsAdmin(ctx) {
+		ctx.View("error.html")
+		return
+	}
+	id := ctx.URLParam("id")
+	msg := ctx.URLParam("message")
+	if dbase.EditFeedback(tool.String2Int(id),msg){
+		ctx.HTML("<script language='javascript' type='text/javascript'>window.location.href='../feedback';</script>")
+		return
+	}
+	ctx.HTML("<script language='javascript' type='text/javascript'>window.location.href='../feedback';</script>")
+
+}
+
+
+func AddMessage(ctx iris.Context){
+	if !User.IsAdmin(ctx){
+		ctx.View("error.html")
+		return
+	}
+	if dbase.AddMeassage(ctx.URLParam("title"),ctx.URLParam("message")){
+
+		ctx.HTML("<script language='javascript' type='text/javascript'>window.location.href='../message';</script>")
+
+		return
+	}
 }

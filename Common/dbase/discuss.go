@@ -36,7 +36,7 @@ func ListDiscuss(mtype int) interface{} {
 			re1 = make(map[string]string)
 			re1["id"] = strconv.Itoa(int(resdata.ID))
 			re1["titletext"] = resdata.UserName
-			re1["group"] = strconv.Itoa(resdata.Group)
+			re1["group"] = strconv.Itoa(resdata.GroupId)
 			re1["posttime"] = resdata.PostTime.String()
 			re1["title"] = resdata.Title
 			re1["message"] = resdata.Message
@@ -44,7 +44,7 @@ func ListDiscuss(mtype int) interface{} {
 		}
 		return result
 	} else {
-		rows, _ := db.Model(&Discuss{}).Where(&Discuss{Group: mtype /*Group=0*/}).Rows()
+		rows, _ := db.Model(&Discuss{}).Where("group_id = ?", mtype /*Group=0*/).Rows()
 		//.Select("id, group_id, uid, answer").
 		defer rows.Close()
 		i := 0
@@ -54,20 +54,11 @@ func ListDiscuss(mtype int) interface{} {
 			re1 = make(map[string]string)
 			re1["id"] = strconv.Itoa(int(resdata.ID))
 			re1["titletext"] = resdata.UserName
-			re1["group"] = strconv.Itoa(resdata.Group)
+			re1["group"] = strconv.Itoa(resdata.GroupId)
 			re1["posttime"] = resdata.PostTime.String()
 			re1["title"] = resdata.Title
 			re1["message"] = resdata.Message
 			result = append(result, re1)
-			/*
-				result[strconv.Itoa(i)] = make(map[string]string)
-				result[strconv.Itoa(i)]["id"] = strconv.Itoa(int(resdata.ID))
-				result[strconv.Itoa(i)]["uid"] = strconv.Itoa(resdata.UID)
-				result[strconv.Itoa(i)]["group"] = strconv.Itoa(resdata.Group)
-				result[strconv.Itoa(i)]["posttime"] = resdata.PostTime.String()
-				result[strconv.Itoa(i)]["title"] = resdata.Title
-				result[strconv.Itoa(i)]["message"] = resdata.Message
-			*/
 			i++
 			// do something
 		}
@@ -89,7 +80,7 @@ func PostMessage(uid, Groupid int, Title, Message string) bool {
 
 	if err := db.Create(&Discuss{
 		UID:      uid,
-		Group:    Groupid,
+		GroupId:  Groupid,
 		UserName: newus.Username,
 		PostTime: time.Now(),
 		Title:    Title,
@@ -159,7 +150,7 @@ func ListReply(reid int) interface{} {
 	db = dbtmp
 	db.AutoMigrate(&ReplyMessage{}) //自动迁移
 
-	rows, _ := db.Model(&ReplyMessage{}).Where(&ReplyMessage{REID: reid}).Rows()
+	rows, _ := db.Model(&ReplyMessage{}).Where("re_id=?",reid).Rows()
 	//.Select("id, group_id, uid, answer").
 	defer rows.Close()
 	i := 0
@@ -197,7 +188,7 @@ func EditMsg(id int, Msg Discuss) bool {
 	}
 	db = dbtmp
 	db.AutoMigrate(&Discuss{}) //自动迁移
-	e := db.Model(&Discuss{}).Where("id=?", id).Update(&Discuss{
+	e := db.Model(&Discuss{}).Where(&Discuss{ID: uint(id)}).Update(&Discuss{
 		Title:   Msg.Title,
 		Message: Msg.Message,
 	}).Error
@@ -206,3 +197,46 @@ func EditMsg(id int, Msg Discuss) bool {
 	}
 	return false
 }
+
+//ToHot
+func ToHot(id int) bool {
+	dbtmp, err := gorm.Open(dbtype, mydbase)
+	if err != nil {
+		panic("failed to connect database")
+	}
+	db = dbtmp
+	db.AutoMigrate(&Discuss{}) //自动迁移
+	e := db.Model(&Discuss{}).Where(Discuss{ID: uint(id)}).Update("group_id", 0).Error
+	if e == nil {
+		return true
+	}
+	return false
+}
+func NoToHot(id int) bool {
+	dbtmp, err := gorm.Open(dbtype, mydbase)
+	if err != nil {
+		panic("failed to connect database")
+	}
+	db = dbtmp
+	db.AutoMigrate(&Discuss{}) //自动迁移
+	e := db.Model(&Discuss{}).Where("id=?", id).Update("group_id", 1).Error
+	if e == nil {
+		return true
+	}
+	return false
+}
+func DelReply(id int) bool {
+	dbtmp, err := gorm.Open(dbtype, mydbase)
+	if err != nil {
+		panic("failed to connect database")
+	}
+	db = dbtmp
+	db.AutoMigrate(&ReplyMessage{}) //自动迁移
+	e := db.Model(&ReplyMessage{}).Where("id = ?", id).Unscoped().Delete(&ReplyMessage{}).Error
+	if e != nil {
+		log.Println(strconv.Itoa(id) + ": Del Reply Error!")
+		return false
+	}
+	return true
+}
+

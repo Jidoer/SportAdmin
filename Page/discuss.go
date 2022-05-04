@@ -25,8 +25,6 @@ type ReplayMsg struct {
 	TotalCount string `json:"totalCount"`
 }
 */
-
-
 // 127.0.0.1:84/GetList?group=0 1 2 (√)
 func GetList(ctx iris.Context) {
 	c := dbase.ListDiscuss(tool.String2Int(ctx.URLParam("group")))
@@ -47,19 +45,17 @@ func GetMessageInfo(ctx iris.Context) {
 
 //  127.0.0.1:84/PostMessage??token=xxx&title=KANG&message=ccccccccccccc &gid=0 1 2  (√)
 func PostMessage(ctx iris.Context) {
-	//Group_id
-	//Message
-	//title
-	/*sid := ctx.URLParam("gid")
-	if !tool.Isnumber(sid) {
+
+	if !dbase.CKToken(ctx.URLParam("token")){
+		log.Println("Token Error!")
 		ctx.Write([]byte("error:0"))
 		return
 	}
-	*/
+
 	uid := dbase.FromTokenGetID(ctx.URLParam("token"))
 
-	if dbase.PostMessage(uid,1,ctx.URLParam("title"), ctx.URLParam("message")) {
-		log.Printf("提交->标题:%s内容%s\n",ctx.URLParam("title"),ctx.URLParam("message"))
+	if dbase.PostMessage(uid, 1, ctx.URLParam("title"), ctx.URLParam("message")) {
+		log.Printf("提交->标题:%s内容%s\n", ctx.URLParam("title"), ctx.URLParam("message"))
 		ctx.Write([]byte("ok"))
 		return //Exit()
 	}
@@ -71,8 +67,15 @@ func PostMessage(ctx iris.Context) {
 func Reply(ctx iris.Context) {
 	sreid := ctx.URLParam("rid")
 	msg := ctx.URLParam("message")
+
+	if !dbase.CKToken(ctx.URLParam("token")){
+		log.Println("Token Error!")
+		ctx.Write([]byte("error:0"))
+		return
+	}
+
 	uid := dbase.FromTokenGetID(ctx.URLParam("token"))
-	if uid == -1{
+	if uid == -1 {
 		ctx.Write([]byte("error"))
 		return
 	}
@@ -82,7 +85,7 @@ func Reply(ctx iris.Context) {
 	}
 	reid := tool.String2Int(sreid)
 	dbase.Reply(uid, reid, msg)
-	log.Printf("回复->：%s内容：%s\n",ctx.URLParam("rid"),ctx.URLParam("message"))
+	log.Printf("回复->：%s内容：%s\n", ctx.URLParam("rid"), ctx.URLParam("message"))
 	return
 }
 
@@ -171,21 +174,19 @@ func AppReg(ctx iris.Context) {
 
 }
 
-
-
 /////////////////////////////////////////////////////////////////////
 
-func PostFeedback(ctx iris.Context){
-	if dbase.PostFeedback(ctx.URLParam("email"),ctx.URLParam("msg")){
+func PostFeedback(ctx iris.Context) {
+	if dbase.PostFeedback(ctx.URLParam("email"), ctx.URLParam("msg"), tool.String2Int(ctx.URLParam("type"))) {
 		ctx.Write([]byte("[ok]"))
-		log.Println("提交反馈: "+ctx.URLParam("msg"))
+		log.Println("提交反馈: " + ctx.URLParam("msg"))
 		return
 	}
 	ctx.Write([]byte("[no]"))
 	return
 }
 
-func GetReplyList(ctx iris.Context){
+func GetReplyList(ctx iris.Context) {
 	sid := ctx.URLParam("id")
 	if !tool.Isnumber(sid) {
 		ctx.Write([]byte("error"))
@@ -197,10 +198,20 @@ func GetReplyList(ctx iris.Context){
 	return
 }
 
+//(x)未添加 SendEmail
+func SendEmail(ctx iris.Context) {
+	email := ctx.URLParam("email")
+	message := ctx.URLParam("message")
+	log.Println("发送邮件:" + email + "内容：" + message)
+}
 
-
-
-
-
-
+func AddMsg(ctx iris.Context) {
+	if dbase.PostFeedback(ctx.URLParam("email"), ctx.URLParam("msg"), tool.String2Int(ctx.URLParam("type"))) {
+		ctx.Write([]byte("[ok]"))
+		log.Println("提交反馈: " + ctx.URLParam("msg"))
+		return
+	}
+	ctx.Write([]byte("[no]"))
+	return
+}
 
