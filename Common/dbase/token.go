@@ -16,7 +16,7 @@ func SetToken(User UserInfo, token string) bool {
 	db.AutoMigrate(&TokenDB{}) //自动迁移
 	dd, _ := time.ParseDuration("240h")
 	if IfTokened(int(User.ID)) {
-		if err := db.Model(&TokenDB{}).Update(&TokenDB{UserName: User.Username, Token: token, Created: time.Now(), EndTime: time.Now().Add(dd)}).Error; err != nil {
+		if err := db.Model(&TokenDB{}).Where("user_id=?",User.ID).Update(&TokenDB{UserName: User.Username, Token: token, Created: time.Now(), EndTime: time.Now().Add(dd)}).Error; err != nil {
 			return false
 		}
 		return true
@@ -40,7 +40,7 @@ func IfTokened(uid int) bool {
 	defer rows.Close()
 	for rows.Next() {
 		db.ScanRows(rows, &ittoken)
-		//有&满足即可
+		rows.Close()
 		return true
 	}
 	return false
@@ -62,7 +62,7 @@ func CKToken(token string) bool {
 	for rows.Next() {
 		db.ScanRows(rows, &ittoken)
 		um++
-		//有&满足即可
+		rows.Close()
 		return true
 	}
 	return false
@@ -94,7 +94,7 @@ func FromTokenGetID(token string) int {
 	for rows.Next() {
 		db.ScanRows(rows, &ittoken)
 		um++
-		//有&满足即可
+		rows.Close()
 		return ittoken.UserID
 	}
 	return -1
